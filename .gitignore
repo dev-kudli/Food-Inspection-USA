@@ -159,8 +159,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Airflow Logs
+# Airflow 
 /airflow/logs
+.user.yml
 
 # Docker Volumes
 /cloud/data

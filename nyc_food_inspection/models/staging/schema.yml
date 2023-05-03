@@ -1,9 +1,0 @@
-version: 2
-
-sources:
-  - name: staging
-    database: nyc_food_inspection
-    schema: public
-    tables:
-      - name: staging_chicago
-      
