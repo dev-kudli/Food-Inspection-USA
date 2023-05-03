@@ -12,12 +12,19 @@ def stagingNycFoodInspections(user, password, host, port, db, table_name):
         data = pd.read_csv(url, sep='\t', low_memory=False)
         print('Row Count = ', len(data))
 
+        data['Violations'] = data['Violations'].str.split('|')
+        data_explode = data.explode('Violations')
+        print('Row Count after explode = ', len(data_explode))
+
         engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{db}')
         print(f'Connected to {engine.url.database}')
 
-        # Append to table
-        data.to_sql(name=table_name, con=engine, if_exists='append')
+        data_explode.head(0).to_sql(name=table_name, con=engine)
+        print('Table Created')
+
+        # Append to tableend')
         print(f'Inserted to {table_name}')
+        data_explode.to_sql(name=table_name, con=engine, if_exists='append')
 
     except Exception as e:
         print(e)
