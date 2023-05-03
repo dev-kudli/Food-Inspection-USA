@@ -1,0 +1,27 @@
+food_inspection_test:
+  target: pg_test
+  outputs:
+    pg_test:
+      type: postgres
+      host: localhost
+      user: root
+      password: root
+      port: 5432
+      dbname: food_inspection_test
+      schema: target
+      threads: 4
+      keepalive_idle: 0
+
+food_inspection_dev:
+  target: pg_dev
+  outputs:
+    pg_dev:
+      type: postgres
+      host: localhost
+      user: root
+      password: root
+      port: 5432
+      dbname: food_inspection_dev
+      schema: target
+      threads: 4
+      keepalive_idle: 0
