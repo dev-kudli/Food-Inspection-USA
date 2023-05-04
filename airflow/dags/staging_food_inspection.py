@@ -16,11 +16,14 @@ def stagingNycFoodInspections(user, password, host, port, db, table_name):
         data = pd.read_csv(url, sep='\t', low_memory=False)
         print('Row Count = ', len(data))
 
+        # Replacing nulls since explode operation eliminates them
+        data["Violations"].fillna("NONE", inplace = True)
+
         data['Violations'] = data['Violations'].str.split('|')
         data_explode = data.explode('Violations')
         print('Row Count after explode = ', len(data_explode))
 
-        data_explode.head(0).to_sql(name=table_name, con=engine)
+        data_explode.head(0).to_sql(name=table_name, con=engine, if_exists='replace')
         print('Table Created')
 
         # Append to tableend')
