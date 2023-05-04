@@ -10,6 +10,7 @@ with
             coalesce(trim(upper(facility_type)), 'UNKNOWN') as facility_type,
             coalesce(trim(upper(address)), 'UNKNOWN') as address,
             coalesce(city, 'UNKNOWN') as city,
+            coalesce(replace(zip, '0', 'UNKNOWN'), 'UNKNOWN') as zip,
             coalesce(trim(upper(inspection_type)), 'UNKNOWN') as inspection_type,
             coalesce(trim(upper(inspection_result)), 'UNKNOWN') as inspection_result
 
@@ -25,9 +26,7 @@ select distinct
     {{
         dbt_utils.generate_surrogate_key(
             [
-                "inspection_date",
-                "staging.dba_name",
-                "staging.address"
+                "staging.inspection_id"
             ]
         )
     }} as inspection_sk,
@@ -46,7 +45,8 @@ inner join dim_restaurant on staging.dba_name=dim_restaurant.dba_name
 
 inner join dim_geography on 
 staging.address=dim_geography.address and
-staging.city=dim_geography.city
+staging.city=dim_geography.city and
+staging.zip=dim_geography.zip
 
 inner join dim_inspection_result on staging.inspection_result=dim_inspection_result.inspection_result
 

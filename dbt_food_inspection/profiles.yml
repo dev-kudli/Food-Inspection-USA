@@ -1,4 +1,4 @@
-food_inspection_test:
+food_inspection:
   target: pg_test
   outputs:
     pg_test:
@@ -12,9 +12,6 @@ food_inspection_test:
       threads: 4
       keepalive_idle: 0
 
-food_inspection_dev:
-  target: pg_dev
-  outputs:
     pg_dev:
       type: postgres
       host: localhost

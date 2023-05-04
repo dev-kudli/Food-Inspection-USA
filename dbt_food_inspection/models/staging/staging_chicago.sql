@@ -18,12 +18,12 @@ select
     cast("Latitude" as numeric) as latitude,
     cast("Longitude" as numeric) as longitude
 
-{% if target.name == 'dev' %}
+{% if target.name == 'pg_dev' %}
 from {{ source("staging_dev", "staging_chicago") }}
 {% else %}
 from {{ source("staging_test", "staging_chicago") }}
 {% endif %}
 
-{% if target.name == 'test' %}
+{% if target.name == 'pg_test' %}
 limit 1000
 {% endif %}
