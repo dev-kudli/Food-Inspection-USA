@@ -33,7 +33,7 @@ services:
 networks:
   airflow:
     external:
-      name: airflow_default
+      name: nycmotorvehicle_default
 
 volumes:
     v_pgadmin:

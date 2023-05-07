@@ -44,7 +44,7 @@ x-airflow-common:
   # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
   # and uncomment the "build" line below, Then run `docker compose build` to build the images.
   &airflow-common
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.2.3}
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.5.1}
   # build: .
   environment:
     &airflow-common-env
@@ -56,11 +56,12 @@ x-airflow-common:
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:- dbt-core dbt-postgres }
   volumes:
-    - ./dags:/opt/airflow/dags
-    - ./logs:/opt/airflow/logs
-    - ./plugins:/opt/airflow/plugins
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/logs:/opt/airflow/logs
+    - ./airflow/plugins:/opt/airflow/plugins
+    - ./dbt_food_inspection:/opt/dbt_food_inspection
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -196,9 +197,10 @@ services:
           echo "   https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html#before-you-begin"
           echo
         fi
-        mkdir -p /sources/logs /sources/dags /sources/plugins
+        mkdir -p /sources/airflow/logs /sources/airlflow/dags /sources/airflow/plugins
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
         exec /entrypoint airflow version
+        
     # yamllint enable rule:line-length
     environment:
       <<: *airflow-common-env
@@ -225,3 +227,7 @@ services:
 
 volumes:
   postgres-db-volume:
+
+# networks:
+#   nycmotorvehicle_default:
+#     external: true

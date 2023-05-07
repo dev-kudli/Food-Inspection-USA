@@ -4,6 +4,8 @@ from sqlalchemy import create_engine
 
 from airflow import DAG
 from airflow.models import Variable
+from airflow.utils.task_group import TaskGroup
+from airflow.operators.bash_operator import BashOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
 
@@ -42,11 +44,13 @@ default_args = {
 }
 
 # Instantiate a DAG object
-staging_food_inspection_dag = DAG('staging_food_inspection',
+staging_food_inspection_dag = DAG(
+    dag_id='staging_food_inspection',
     default_args=default_args,
     description='Staging NYC Food Inspection',
     schedule_interval='@daily', 
     catchup=False,
+    dagrun_timeout=timedelta(minutes=30),
     tags=['nyc, food, inspection']
 )
 
@@ -66,8 +70,23 @@ with staging_food_inspection_dag:
         dag=staging_food_inspection_dag
     )
 
-    # Creating second task
-    end_task = DummyOperator(task_id='end_task', dag=staging_food_inspection_dag)
+    with TaskGroup(group_id="dbt_etl") as dbt_etl:
+            dbt_project_path_export = BashOperator(
+            task_id="dbt_project_path_export",
+            bash_command='export DBT_PROFILES_DIR=/opt/dbt_food_inspection'
+            )
+
+            dbt_dep_install = BashOperator(
+            task_id="dbt_dep_install",
+            bash_command='cd /opt/dbt_food_inspection;  dbt deps'
+            )
+
+            dbt_run_build = BashOperator(
+            task_id="dbt_run_build",
+            bash_command="cd /opt/dbt_food_inspection; dbt build --target pg_dev"
+            )
+
+            dbt_project_path_export >> dbt_dep_install >> dbt_run_build
 
     # Set the order of execution of tasks. 
-    ingest_staging_food_inspection_task >> end_task
+    ingest_staging_food_inspection_task >> dbt_etl

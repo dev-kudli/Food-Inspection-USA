@@ -32,7 +32,7 @@ select distinct
             ]
         )
     }} as inspection_violation_sk,
-    fact_food_inspection.inspection_sk as inspection_id,
+    fact_food_inspection.inspection_sk as inspection_sk,
     staging.violation as violation
 
 from staging

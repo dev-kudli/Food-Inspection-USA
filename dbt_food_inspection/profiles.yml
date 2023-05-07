@@ -14,7 +14,7 @@ food_inspection:
 
     pg_dev:
       type: postgres
-      host: localhost
+      host: pgdatabase
       user: root
       password: root
       port: 5432

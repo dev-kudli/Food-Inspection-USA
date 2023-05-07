@@ -1,10 +1,12 @@
-CREATE TABLE "target"."dim_facility_type" (
+CREATE SCHEMA IF NOT EXISTS target;
+
+CREATE TABLE IF NOT EXISTS "target"."dim_facility_type" (
   "facility_type_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "facility_type" text COLLATE "pg_catalog"."default"
 );
 ALTER TABLE "target"."dim_facility_type" OWNER TO "root";
 
-CREATE TABLE "target"."dim_geography" (
+CREATE TABLE IF NOT EXISTS "target"."dim_geography" (
   "geo_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "address" text COLLATE "pg_catalog"."default",
   "city" text COLLATE "pg_catalog"."default",
@@ -15,25 +17,25 @@ CREATE TABLE "target"."dim_geography" (
 );
 ALTER TABLE "target"."dim_geography" OWNER TO "root";
 
-CREATE TABLE "target"."dim_inspection_result" (
+CREATE TABLE IF NOT EXISTS "target"."dim_inspection_result" (
   "inspection_result_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "inspection_result" text COLLATE "pg_catalog"."default"
 );
 ALTER TABLE "target"."dim_inspection_result" OWNER TO "root";
 
-CREATE TABLE "target"."dim_inspection_type" (
+CREATE TABLE IF NOT EXISTS "target"."dim_inspection_type" (
   "inspection_type_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "inspection_type" text COLLATE "pg_catalog"."default"
 );
 ALTER TABLE "target"."dim_inspection_type" OWNER TO "root";
 
-CREATE TABLE "target"."dim_restaurant" (
+CREATE TABLE IF NOT EXISTS "target"."dim_restaurant" (
   "restaurant_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "dba_name" text COLLATE "pg_catalog"."default"
 );
 ALTER TABLE "target"."dim_restaurant" OWNER TO "root";
 
-CREATE TABLE "target"."fact_food_inspection" (
+CREATE TABLE IF NOT EXISTS "target"."fact_food_inspection" (
   "inspection_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "restaurant_sk" text COLLATE "pg_catalog"."default",
   "geo_sk" text COLLATE "pg_catalog"."default",
@@ -46,7 +48,7 @@ CREATE TABLE "target"."fact_food_inspection" (
 );
 ALTER TABLE "target"."fact_food_inspection" OWNER TO "root";
 
-CREATE TABLE "target"."fact_inspection_violation" (
+CREATE TABLE IF NOT EXISTS "target"."fact_inspection_violation" (
   "inspection_violation_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "inspection_sk" text COLLATE "pg_catalog"."default",
   "violation" text COLLATE "pg_catalog"."default"
@@ -54,31 +56,37 @@ CREATE TABLE "target"."fact_inspection_violation" (
 ALTER TABLE "target"."fact_inspection_violation" OWNER TO "root";
 
 -- FK
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Restaurant_FK;
 ALTER TABLE target.fact_food_inspection 
 ADD CONSTRAINT Restaurant_FK FOREIGN KEY (restaurant_sk) 
 REFERENCES target.dim_restaurant (restaurant_sk) 
 ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Inspection_Type_FK;
 ALTER TABLE target.fact_food_inspection 
 ADD CONSTRAINT Inspection_Type_FK FOREIGN KEY (inspection_type_sk) 
 REFERENCES target.dim_inspection_type (inspection_type_sk) 
 ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Geo_FK;
 ALTER TABLE target.fact_food_inspection 
 ADD CONSTRAINT Geo_FK FOREIGN KEY (geo_sk)
 REFERENCES target.dim_geography (geo_sk) 
 ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Facility_FK;
 ALTER TABLE target.fact_food_inspection 
 ADD CONSTRAINT Facility_FK FOREIGN KEY (facility_type_sk) 
 REFERENCES target.dim_facility_type (facility_type_sk) 
 ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Result_FK;
 ALTER TABLE target.fact_food_inspection 
 ADD CONSTRAINT Result_FK FOREIGN KEY (inspection_result_sk) 
 REFERENCES target.dim_inspection_result (inspection_result_sk) 
 ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Inspection_FK;
 ALTER TABLE target.fact_inspection_violation 
 ADD CONSTRAINT Inspection_FK FOREIGN KEY (inspection_sk) 
 REFERENCES target.fact_food_inspection (inspection_sk) 
