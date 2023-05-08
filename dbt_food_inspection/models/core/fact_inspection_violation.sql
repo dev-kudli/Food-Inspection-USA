@@ -11,7 +11,7 @@ with
             coalesce(city, 'UNKNOWN') as city,
             replace(zip, '0', 'UNKNOWN') as zip,
             coalesce(trim(upper(inspection_type)), 'UNKNOWN') as inspection_type,
-            coalesce(trim(upper(inspection_result)), 'UNKNOWN') as inspection_result,
+            regexp_replace(coalesce(trim(upper(inspection_result)), 'UNKNOWN'), '\sW\/\s', ' WITH ') as inspection_result,
             coalesce(trim(upper(violation)), 'NONE') as violation
 
         from {{ ref("staging_chicago") }}

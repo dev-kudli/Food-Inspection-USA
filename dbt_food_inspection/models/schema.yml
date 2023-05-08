@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_inspection_type
+    columns:
+      - name: inspection_type_sk
+        tests:
+          - unique 
+          - not_null
+
+  - name: dim_restaurant
+    columns:
+      - name: restaurant_sk
+        tests:
+          - unique
+          - not_null

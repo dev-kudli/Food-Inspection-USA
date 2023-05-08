@@ -3,7 +3,7 @@
 with
     distinct_inspection_result as (
         select distinct
-            coalesce(trim(upper(inspection_result)), 'UNKNOWN') as inspection_result
+            regexp_replace(coalesce(trim(upper(inspection_result)), 'UNKNOWN'), '\sW\/\s', ' WITH ') as inspection_result
         from {{ ref("staging_chicago") }}
     )
 
