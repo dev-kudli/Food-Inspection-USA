@@ -225,9 +225,22 @@ services:
       - -c
       - airflow
 
+  pgdatabase:
+        image: postgres:15
+        container_name: pgdatabase
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_DB=food_inspection_dev
+        volumes:
+            - postgres-app-volume:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        healthcheck:
+          test: ["CMD", "pg_isready", "-U", "root", "-d", "postgres"]
+          interval: 5s
+          retries: 5
+
 volumes:
   postgres-db-volume:
-
-# networks:
-#   nycmotorvehicle_default:
-#     external: true
+  postgres-app-volume:
