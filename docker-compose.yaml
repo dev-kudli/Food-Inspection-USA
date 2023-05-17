@@ -217,9 +217,10 @@ services:
     environment:
         - POSTGRES_USER=root
         - POSTGRES_PASSWORD=root
-        - POSTGRES_DB=food_inspection_dev
+        - POSTGRES_DB=postgres
     volumes:
         - postgres-app-volume:/var/lib/postgresql/data
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
         - "5432:5432"
     healthcheck:

@@ -11,7 +11,7 @@ select
     cast("City" as text) as city,
     cast("State" as text) as state,
     cast("Zip" as text) as zip,
-    cast("Inspection Date" as text) as inspection_date,
+    cast("Inspection Date" as date) as inspection_date,
     cast("Inspection Type" as text) as inspection_type,
     cast("Results" as text) as inspection_result,
     cast("Violations" as text) as violation,

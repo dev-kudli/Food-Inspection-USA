@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 
 from airflow import DAG
 from airflow.models import Variable
+from airflow.utils.dates import days_ago
 from airflow.utils.task_group import TaskGroup
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.dummy_operator import DummyOperator
@@ -38,9 +39,8 @@ def stagingNycFoodInspections(user, password, host, port, db, table_name):
 # initializing the default arguments
 default_args = {
     'owner': 'Skudli',
-    'start_date': datetime(2023, 1, 1),
-    'retries': 3,
-    'retry_delay': timedelta(minutes=5)
+    'start_date': days_ago(0),
+    'retries': 0
 }
 
 # Instantiate a DAG object
@@ -48,7 +48,7 @@ staging_food_inspection_dag = DAG(
     dag_id='staging_food_inspection',
     default_args=default_args,
     description='Staging NYC Food Inspection',
-    schedule_interval='@daily', 
+    schedule_interval='0 0 * * *', 
     catchup=False,
     dagrun_timeout=timedelta(minutes=30),
     tags=['nyc, food, inspection']

@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS "target"."fact_food_inspection" (
   "inspection_result_sk" text COLLATE "pg_catalog"."default",
   "facility_type_sk" text COLLATE "pg_catalog"."default",
   "inspection_type_sk" text COLLATE "pg_catalog"."default",
-  "inspection_date" text COLLATE "pg_catalog"."default",
+  "inspection_date" DATE,
   "inspection_id" int4,
   "license_no" int4
 );
@@ -86,8 +86,14 @@ ADD CONSTRAINT Result_FK FOREIGN KEY (inspection_result_sk)
 REFERENCES target.dim_inspection_result (inspection_result_sk) 
 ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Inspection_FK;
+ALTER TABLE target.fact_inspection_violation DROP CONSTRAINT IF EXISTS Inspection_FK;
 ALTER TABLE target.fact_inspection_violation 
 ADD CONSTRAINT Inspection_FK FOREIGN KEY (inspection_sk) 
 REFERENCES target.fact_food_inspection (inspection_sk) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Date_FK;
+ALTER TABLE target.fact_food_inspection 
+ADD CONSTRAINT Date_FK FOREIGN KEY (inspection_date) 
+REFERENCES target.dim_date (date_actual) 
 ON DELETE CASCADE ON UPDATE CASCADE;
