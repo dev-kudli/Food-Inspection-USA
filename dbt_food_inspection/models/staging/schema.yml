@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: staging_test
+    database: food_inspection_test
+    schema: public
+    tables:
+      - name: staging_chicago
+
+  - name: staging_dev
+    database: food_inspection_dev
+    schema: public
+    tables:
+      - name: staging_chicago

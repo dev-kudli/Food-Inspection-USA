@@ -1,0 +1,9 @@
+{
+    "DB": "food_inspection",
+    "ENV": "dev",
+    "HOST": "pgdatabase",
+    "PASSWORD": "root",
+    "PORT": 5432,
+    "TABLE_NAME": "staging_chicago",
+    "USER": "root"
+}
