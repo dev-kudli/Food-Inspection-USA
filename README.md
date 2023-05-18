@@ -10,11 +10,10 @@ Explore Restaurant Food Inspections results over the period of 10 years to deriv
 ## Dataset
 Chicago Food Inspection - [OpenData](https://data.cityofchicago.org/Health-Human-Services/Food-Inspections/4ijn-s7e5)
 
-## Architecture Diagram
-![architecture_diagram](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/4f0f20f2-441d-46bf-97bb-ebb0ab791f2f)
+# Architecture Diagram
+![architecture_diagram](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/9410cd6a-3227-49a5-8417-e6f51c9db3d6)
 
 ## Visualization
-
 - Dashboard A
 ![Dashboard_A](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/3762eea4-b265-44a3-8521-d5110df2d161)
 
