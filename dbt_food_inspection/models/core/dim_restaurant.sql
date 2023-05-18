@@ -3,7 +3,7 @@
 with
     distinct_restaurant as (
         select distinct
-           COALESCE(UPPER(TRIM(dba_name)), 'UNKNOWN') as dba_name
+           coalesce(upper(trim(dba_name)), 'UNKNOWN') as dba_name
         from {{ ref("staging_chicago") }}
     )
 

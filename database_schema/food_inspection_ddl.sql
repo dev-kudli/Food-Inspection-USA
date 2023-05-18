@@ -35,6 +35,12 @@ CREATE TABLE IF NOT EXISTS "target"."dim_restaurant" (
 );
 ALTER TABLE "target"."dim_restaurant" OWNER TO "root";
 
+CREATE TABLE IF NOT EXISTS "target"."dim_riskcategory" (
+  "risk_sk" text COLLATE "pg_catalog"."default" UNIQUE,
+  "risk" text COLLATE "pg_catalog"."default"
+);
+ALTER TABLE "target"."dim_restaurant" OWNER TO "root";
+
 CREATE TABLE IF NOT EXISTS "target"."fact_food_inspection" (
   "inspection_sk" text COLLATE "pg_catalog"."default" UNIQUE,
   "restaurant_sk" text COLLATE "pg_catalog"."default",
@@ -42,6 +48,7 @@ CREATE TABLE IF NOT EXISTS "target"."fact_food_inspection" (
   "inspection_result_sk" text COLLATE "pg_catalog"."default",
   "facility_type_sk" text COLLATE "pg_catalog"."default",
   "inspection_type_sk" text COLLATE "pg_catalog"."default",
+  "risk_sk" text COLLATE "pg_catalog"."default",
   "inspection_date" DATE,
   "inspection_id" int4,
   "license_no" int4
@@ -96,4 +103,10 @@ ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Date_FK;
 ALTER TABLE target.fact_food_inspection 
 ADD CONSTRAINT Date_FK FOREIGN KEY (inspection_date) 
 REFERENCES target.dim_date (date_actual) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE target.fact_food_inspection DROP CONSTRAINT IF EXISTS Risk_FK;
+ALTER TABLE target.fact_food_inspection 
+ADD CONSTRAINT Risk_FK FOREIGN KEY (risk_sk) 
+REFERENCES target.dim_riskcategory (risk_sk) 
 ON DELETE CASCADE ON UPDATE CASCADE;

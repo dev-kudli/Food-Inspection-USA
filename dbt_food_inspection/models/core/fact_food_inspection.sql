@@ -12,6 +12,7 @@ with
             coalesce(city, 'UNKNOWN') as city,
             coalesce(replace(zip, '0', 'UNKNOWN'), 'UNKNOWN') as zip,
             coalesce(trim(upper(inspection_type)), 'UNKNOWN') as inspection_type,
+            coalesce((upper(risk)), 'UNKNOWN') as risk,
             regexp_replace(coalesce(trim(upper(inspection_result)), 'UNKNOWN'), '\sW\/\s', ' WITH ') as inspection_result
 
         from {{ ref("staging_chicago") }}
@@ -20,7 +21,8 @@ with
     dim_geography as (select * from {{ ref("dim_geography") }}),
     dim_inspection_result as (select * from {{ ref("dim_inspection_result") }}),
     dim_facility_type as (select * from {{ ref("dim_facility_type") }}),
-    dim_inspection_type as (select * from {{ ref("dim_inspection_type") }})
+    dim_inspection_type as (select * from {{ ref("dim_inspection_type") }}),
+    dim_riskcategory as (select * from {{ ref("dim_riskcategory") }})
 
 select distinct
     {{
@@ -35,6 +37,7 @@ select distinct
     dim_inspection_result.inspection_result_sk as inspection_result_sk,
     dim_facility_type.facility_type_sk as facility_type_sk,
     dim_inspection_type.inspection_type_sk as inspection_type_sk,
+    dim_riskcategory.risk_sk as risk_sk,
     staging.inspection_date as inspection_date,
     staging.inspection_id as inspection_id,
     staging.license_no as license_no
@@ -53,6 +56,8 @@ inner join dim_inspection_result on staging.inspection_result=dim_inspection_res
 inner join dim_facility_type on staging.facility_type=dim_facility_type.facility_type
 
 inner join dim_inspection_type on staging.inspection_type=dim_inspection_type.inspection_type
+
+inner join dim_riskcategory on staging.risk=dim_riskcategory.risk
 
 {% if target.name == 'pg_test'%}
 limit 1000

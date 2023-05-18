@@ -5,3 +5,4 @@ DROP TABLE target.dim_geography;
 DROP TABLE target.dim_inspection_type;
 DROP TABLE target.dim_restaurant;
 DROP TABLE target.dim_inspection_result;
+DROP TABLE target.dim_riskcategory;
