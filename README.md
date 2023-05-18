@@ -1,5 +1,3 @@
-# USA Food Inspection
-
 ## Problem Statement
 Explore Restaurant Food Inspections results over the period of 10 years to derive insights on
 
