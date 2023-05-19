@@ -13,6 +13,20 @@ Chicago Food Inspection - [OpenData](https://data.cityofchicago.org/Health-Human
 ## Architecture Diagram
 ![architecture_diagram](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/05ed1d01-f9e5-4ca9-97b2-898b26855c88)
 
+## Data Modelling
+
+| Facts (Pink) | Dimensions (Blue) |
+| ------------- | ------------- |
+| fact_food_inspection | dim_facility_type |
+| fact_inspection_violation  | dim_geography |
+|  | dim_inspection_result |
+|  | dim_inspection_result |
+|  | dim_inspection_type |
+|  | dim_inspection_restaurant |
+|  | dim_risk_category |
+
+![data model](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/95ec58e2-8baf-467d-a0ae-073fe14dad11)
+
 ## DBT Workflow
 ![dag](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/2f3821b2-5b9e-4126-871d-82bbbadf56e5)
 
@@ -24,4 +38,4 @@ Chicago Food Inspection - [OpenData](https://data.cityofchicago.org/Health-Human
 ![Dashboard_B](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/97d2d586-7c2a-4251-89d6-e429a5440ceb)
 
 - Dashboard C
-![Dashboard_C](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/944e2470-006f-45a6-8044-b3ae7e20d3ee)
+![Dashboard_C](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/23b78338-9ce5-45b4-8cd5-f1cfd975f1bb)
