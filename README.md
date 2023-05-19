@@ -22,3 +22,6 @@ Chicago Food Inspection - [OpenData](https://data.cityofchicago.org/Health-Human
 
 - Dashboard B
 ![Dashboard_B](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/97d2d586-7c2a-4251-89d6-e429a5440ceb)
+
+- Dashboard C
+![Dashboard_C](https://github.com/dev-kudli/Food-Inspection-USA/assets/53204171/944e2470-006f-45a6-8044-b3ae7e20d3ee)
